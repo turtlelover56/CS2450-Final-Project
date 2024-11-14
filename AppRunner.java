@@ -9,11 +9,14 @@ public class AppRunner {
         JFrame jfrm = new JFrame("PokéPath! Definitely not copyrighted...");
         jfrm.setSize(1500, 800);
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        // Create the components.
+        jfrm.setResizable(false);
 
-        // Add the components to the frame.
-        
+        // Build the starting menu.
+        JPanel startPane = PaneBuilder.buildStartPanel(jfrm);
+
+        // Add startPane to the frame.
+        jfrm.add(startPane);
+
         // Make the frame visible.
         jfrm.setVisible(true);
     }
