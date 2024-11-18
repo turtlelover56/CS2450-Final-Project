@@ -61,7 +61,7 @@ public class PaneBuilder {
         // Set up the background.
         try {
             BufferedImage startBackground;
-            startBackground = ImageIO.read(new File("Backgrounds/start_background.png"));
+            startBackground = ImageIO.read(new File("Backgrounds/Start_Background.png"));
             JLabel picLabel = new JLabel(new ImageIcon(startBackground));
             startPane.add(picLabel, c);
         } catch (IOException ex) {

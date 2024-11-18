@@ -1,32 +1,35 @@
-public class Item {
-    private String name;
-    private int power; // -1 if NA
-    private String type; // Options: "heal", "shield", "power_boost"
+public class Item extends Usable {
+    private int count;
 
-    // Constructor
-    public Item(String name, int power, String type) {
-        this.name = name;
-        this.power = power;
-        this.type = type;
+    // Constructors
+    public Item(Usable usable) {
+        this(usable, 1);
+    }
+    public Item(Usable usable, int count) {
+        super(usable.getName(), usable.isTargetPlayer(), usable.isSwitchTarget(), usable.getEffect());
+        this.count = count;
+    }
+    /* Changes count by 1. */
+    public void increment() {
+        changeCount(1);
+    }
+    /* Changes count by -1.
+     * Returns false if count reaches 0, else returns true. */
+    public boolean decrement() {
+        return changeCount(-1);
+    }
+    /* Changes count by the specified amount.
+     * Returns false if count <= 0, else returns true. */
+    public boolean changeCount(int change) {
+        count += change;
+        return count <= 0;
     }
 
     // Getters/Setters
-    public String getName() {
-        return name;
+    public int getCount() {
+        return count;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public int getPower() {
-        return power;
-    }
-    public void setPower(int power) {
-        this.power = power;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -1,78 +1,48 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Entity {
-    private int currentHealth;
-    private List<Attack> selectedAttacks;
-    private List<ItemEntry> inventory;
+public class Player extends InstanceEntity {
+    private List<Item> inventory;
 
     // Constructors
-    /* Constructor with randomly selected attacks, with currentHealth set to maxHealth. */
-    public Player(Entity entity) {
-        this(entity.getMaxHealth(), entity);
+    public Player(InstanceEntity instanceEntity) {
+        this(new ArrayList<>(), instanceEntity);
     }
-    /* Constructor with randomly selected attacks. */
-    public Player(int currentHealth, Entity entity) {
-        super(entity.getAttacks(), entity.getMaxHealth(), entity.getName());
-        this.currentHealth = currentHealth;
-        // Roll for attacks in the entity to add to the InstanceEnemy's attacks.
-        selectedAttacks = new ArrayList<>();
-        int length = getAttacks().size();
-        if (length > 3)
-            length = 3;
-        while(selectedAttacks.size() < length) {
-            Attack selectedAttack = super.attack();
-            if (!selectedAttacks.contains(selectedAttack))
-                selectedAttacks.add(selectedAttack);
-        }
-    }
-    /* Constructor with currentHealth set to maxHealth. */
-    public Player(List<Attack> selectedAttacks, Entity entity) {
-        this(selectedAttacks, entity.getMaxHealth(), entity);
-    }
-    public Player(List<Attack> selectedAttacks, int currentHealth, Entity entity) {
-        super(entity.getAttacks(), entity.getMaxHealth(), entity.getName());
-        this.selectedAttacks = selectedAttacks;
-        this.currentHealth = currentHealth;
-    }
-
-    /* Method to change health by given amount. 
-     * Returns true if health is > 0, else returns false.*/
-    public boolean changeHealth(int change) {
-        currentHealth += change;
-        return currentHealth > 0;
+    public Player(List<Item> inventory, InstanceEntity instanceEntity) {
+        super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
+        this.inventory = inventory;
     }
 
     /* Adds the specified item to the inventory.
-     * If the item already exists, increments its count.
-     * Returns 0 if added, 1 if incremented. */
-    public int addItem(Item item) {
-        for (ItemEntry entry : inventory)
-            if (entry.getItem().equals(item)) {
-                entry.incrementCount();
+     * If the item already exists, adds to its count.
+     * Returns 0 if added, 1 if count changed. */
+    public int addItem(Item newItem) {
+        for (Item item : inventory)
+            if (item.getName().equals(newItem.getName())) {
+                item.changeCount(newItem.getCount());
                 return 1;
             }
-        inventory.add(new ItemEntry(item));
+        inventory.add(newItem);
+        return 0;
+    }
+    /* Adds the specified item to the inventory.
+     * If the item already exists, increment its count.
+     * Returns 0 if added, 1 if count incremented. */
+    public int addItem(Usable usable) {
+        for (Item item : inventory)
+            if (item.getName().equals(usable.getName())) {
+                item.increment();
+                return 1;
+            }
+        inventory.add(new Item(usable));
         return 0;
     }
 
     // Getters/Setters
-    public int getCurrentHealth() {
-        return currentHealth;
-    }
-    public void setCurrentHealth(int currentHealth) {
-        this.currentHealth = currentHealth;
-    }
-    public List<Attack> getSelectedAttacks() {
-        return selectedAttacks;
-    }
-    public void setSelectedAttacks(List<Attack> selectedAttacks) {
-        this.selectedAttacks = selectedAttacks;
-    }
-    public List<ItemEntry> getInventory() {
+    public List<Item> getInventory() {
         return inventory;
     }
-    public void setInventory(List<ItemEntry> inventory) {
+    public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
     }
 

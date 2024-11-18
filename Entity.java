@@ -1,21 +1,29 @@
-
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 
 public class Entity {
     private String name;
     private int maxHealth;
     private List<Attack> attacks;
+    private ImageIcon defaultPose;
+    private ImageIcon attackPose;
+    private static final ImageIcon TEMP_DEFAULT_POSE = new ImageIcon("Sprites//Temp_Sprite_Default.png");
+    private static final ImageIcon TEMP_ATTACK_POSE = new ImageIcon("Sprites//Temp_Sprite_Attack.png");
 
     // Constructors
-    public Entity(int maxHealth, String name) {
-        this.maxHealth = maxHealth;
-        this.name = name;
+    public Entity(String name, int maxHealth) {
+        this(name, maxHealth, new ArrayList<>());
     }
-    public Entity(List<Attack> attacks, int maxHealth, String name) {
-        this.attacks = attacks;
-        this.maxHealth = maxHealth;
+    public Entity(String name, int maxHealth, List<Attack> attacks) {
+        this(name, maxHealth, attacks, TEMP_DEFAULT_POSE, TEMP_ATTACK_POSE);
+    }
+    public Entity(String name, int maxHealth, List<Attack> attacks, ImageIcon defaultPose, ImageIcon attackPose) {
         this.name = name;
+        this.maxHealth = maxHealth;
+        this.attacks = attacks;
+        this.defaultPose = defaultPose;
+        this.attackPose = attackPose;
     }
 
     /* Returns a random attack from the enemy's attack list. */
@@ -58,5 +66,16 @@ public class Entity {
     public void setAttacks(List<Attack> attacks) {
         this.attacks = attacks;
     }
-
+    public ImageIcon getDefaultPose() {
+        return defaultPose;
+    }
+    public void setDefaultPose(ImageIcon defaultPose) {
+        this.defaultPose = defaultPose;
+    }
+    public ImageIcon getAttackPose() {
+        return attackPose;
+    }
+    public void setAttackPose(ImageIcon attackPose) {
+        this.attackPose = attackPose;
+    }
 }
