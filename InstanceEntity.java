@@ -24,7 +24,7 @@ public class InstanceEntity extends Entity {
         this(entity.getMaxHealth(), selectedAttacks, entity);
     }
     public InstanceEntity(int currentHealth, List<Attack> selectedAttacks, Entity entity) {
-        super(entity.getName(), entity.getMaxHealth(), entity.getAttacks(), entity.getDefaultPose(), entity.getAttackPose());
+        super(entity.getName(), entity.getMaxHealth(), entity.getElement(), entity.getAttacks(), entity.getDefaultPose(), entity.getAttackPose());
         this.currentHealth = currentHealth;
         this.selectedAttacks = selectedAttacks;
     }

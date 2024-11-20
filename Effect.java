@@ -14,6 +14,18 @@ public class Effect {
     private int duration;
     private boolean percent;
 
+    // Constants
+    public static final int DAMAGE = 0;
+    public static final int BOOST = 1;
+    public static final int HEAL = 2;
+
+    public static final int SHIELD = -2;
+    public static final int NONE = -1;
+    public static final int FIRE = 0;
+    public static final int WATER = 1;
+    public static final int ELECTRICITY = 2;
+    public static final int WOOD = 3;
+    
     // Constructors
     /* Constructor with duration set to 0 for an instantaneous effect. */
     public Effect(int generalType, int specificType, int power, boolean percent) {
