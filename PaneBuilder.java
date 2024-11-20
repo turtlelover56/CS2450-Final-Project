@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,8 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 public class PaneBuilder {
+    // Fonts
     private static final Font NORMAL_FONT = new Font("Serif", Font.PLAIN, 30);
     private static final Font TITLE_FONT = new Font("Serif", Font.BOLD, 55);
     
@@ -56,12 +59,12 @@ public class PaneBuilder {
         startPane.add(titleLabel, c);
         c = new GridBagConstraints(1, 1, 1, 1, .2, .3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
         startPane.add(buttonPanel, c);
-        c = new GridBagConstraints(0, 0, 3, 3, .4, .3, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
         
         // Set up the background.
         try {
+            c = new GridBagConstraints(0, 0, 3, 3, .4, .3, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
             BufferedImage startBackground;
-            startBackground = ImageIO.read(new File("Backgrounds/start_background.png"));
+            startBackground = ImageIO.read(new File("Backgrounds/Start_Background.png"));
             JLabel picLabel = new JLabel(new ImageIcon(startBackground));
             startPane.add(picLabel, c);
         } catch (IOException ex) {
@@ -81,5 +84,72 @@ public class PaneBuilder {
         });
 
         return startPane;
+    }
+
+    static JPanel buildBattlePanel(JFrame jfrm, Player player, Enemy enemy) {
+        // Create the components.
+        JPanel battlePane = new JPanel();
+        battlePane.setLayout(new GridBagLayout());
+        // Player components
+        JLabel playerLabel = new JLabel(player.getName());
+        playerLabel.setFont(NORMAL_FONT);
+        JProgressBar playerHealth = new JProgressBar(0, player.getMaxHealth());
+        playerHealth.setValue(player.getCurrentHealth());
+        JLabel playerIcon = new JLabel(player.getDefaultPose());
+        playerIcon.setPreferredSize(new Dimension(100, 100));
+        // Enemy components
+        JLabel enemyLabel = new JLabel(enemy.getName());
+        enemyLabel.setFont(NORMAL_FONT);
+        JProgressBar enemyHealth = new JProgressBar(0, enemy.getMaxHealth());
+        enemyHealth.setValue(player.getCurrentHealth());
+        JLabel enemyIcon = new JLabel(enemy.getDefaultPose());
+        enemyIcon.setPreferredSize(new Dimension(100, 100));
+        // Option buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(0,1));
+        JButton attackButton = new JButton("Attack");
+        attackButton.setFont(NORMAL_FONT);
+        JButton itemsButton = new JButton("Items");
+        itemsButton.setFont(NORMAL_FONT);
+        JButton runButton = new JButton("Run");
+        runButton.setFont(NORMAL_FONT);
+        // TODO: Attack and Items Lists and Run confirmation.
+        // Add the buttons to the buttonPanel.
+        buttonPanel.add(attackButton);
+        buttonPanel.add(itemsButton);
+        buttonPanel.add(runButton);
+
+        // Set up GridBagConstraints.
+        JLabel invisibleLabel = new JLabel(); // As placeholders for the grid.
+        GridBagConstraints c = new GridBagConstraints(0, 4, 1, 1, .125, .1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,1,0,0), 0, 0);
+        battlePane.add(playerLabel, c);
+        c = new GridBagConstraints(0, 5, 2, 1, .125, .1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,1,0,0), 0, 0);
+        battlePane.add(playerHealth, c);
+        c = new GridBagConstraints(2, 3, 1, 1, .25, .4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+        battlePane.add(playerIcon, c);
+        c = new GridBagConstraints(3, 3, 1, 1, .5, .4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+        battlePane.add(invisibleLabel, c);
+        c = new GridBagConstraints(7, 0, 1, 1, .125, .1, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
+        battlePane.add(enemyLabel, c);
+        c = new GridBagConstraints(6, 1, 2, 1, .125, .1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,0), 0, 0);
+        battlePane.add(enemyHealth, c);
+        c = new GridBagConstraints(4, 2, 2, 1, .25, .4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+        battlePane.add(enemyIcon, c);
+        c = new GridBagConstraints(6, 3, 2, 3, .25, .4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(2,20,1,1), 0, 0);
+        battlePane.add(buttonPanel, c);
+
+        // Set up the background.
+        /* Not Working
+        try {
+            c = new GridBagConstraints(0, 0, 8, 6, .125, .1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+            BufferedImage battleBackground;
+            battleBackground = ImageIO.read(new File("Backgrounds/Battle_Background.png"));
+            JLabel picLabel = new JLabel(new ImageIcon(battleBackground));
+            battlePane.add(picLabel, c);
+        } catch (IOException ex) {
+            
+        }
+        */
+        return battlePane;
     }
 }
