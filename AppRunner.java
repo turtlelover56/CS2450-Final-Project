@@ -13,7 +13,6 @@ public class AppRunner {
 
         // Build the starting menu.
         JPanel startPane = PaneBuilder.buildStartPanel(jfrm);
-        
         // Build the battle menu.
         Player player = new Player(new InstanceEntity(new Entity("Player", 100, Entity.FIRE)));
         Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));

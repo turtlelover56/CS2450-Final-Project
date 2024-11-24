@@ -1,3 +1,6 @@
+
+import javax.swing.SwingUtilities;
+
 public class Encounter {
     private Player player;
     private Enemy enemy;
