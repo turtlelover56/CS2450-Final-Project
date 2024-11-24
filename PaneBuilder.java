@@ -15,7 +15,7 @@ public class PaneBuilder {
     /* Builds and returns the starting menu panel.
      * Must take jfrm in order for the button action listeners to work.
      */
-    static JPanel buildStartPanel(JFrame jfrm) {
+    static JPanel buildStartPanel(JFrame jfrm, CardLayout cards) {
         // Create the components.
         JPanel startPane = new JPanel();
         startPane.setLayout(new GridBagLayout());
@@ -62,7 +62,8 @@ public class PaneBuilder {
 
         // Add action listeners to the buttons.
         startButton.addActionListener((ActionEvent ae) -> {
-            // TODO start ActionListener
+            // Changes the screen to the battle screen.
+            AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
         });
         optionsButton.addActionListener((ActionEvent ae) -> {
             // TODO options ActionListener

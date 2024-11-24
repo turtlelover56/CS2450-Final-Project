@@ -1,8 +1,8 @@
 /*
     The Swing implementation and main method for PokéPath.
 */
-import java.awt.CardLayout;
 import javax.swing.*;
+import java.awt.*;
 
 public class AppRunner {
     AppRunner() {
@@ -15,7 +15,7 @@ public class AppRunner {
         jfrm.setLayout(cards);
 
         // Build the starting menu.
-        JPanel startPane = PaneBuilder.buildStartPanel(jfrm);
+        JPanel startPane = PaneBuilder.buildStartPanel(jfrm, cards);
         // Build the battle menu.
         Player player = new Player(new InstanceEntity(new Entity("Player", 100, Entity.FIRE)));
         Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));
@@ -34,5 +34,10 @@ public class AppRunner {
         SwingUtilities.invokeLater(() -> {
             new AppRunner();
         });
+    }
+
+    public static void changeScreen(CardLayout cards, Container container, String string) {
+        // Changes screen to whichever screen is specified in "string"
+        cards.show(container, string);
     }
 }
