@@ -118,15 +118,12 @@ public class PaneBuilder {
         buttonPanel.add(runButton);
 
         // Set up GridBagConstraints.
-        JLabel invisibleLabel = new JLabel(); // As placeholders for the grid.
         GridBagConstraints c = new GridBagConstraints(0, 4, 1, 1, .1, .1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets(0,5,0,0), 0, 0);
         battlePane.add(playerLabel, c);
         c = new GridBagConstraints(0, 5, 2, 1, .2, .1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,5,10,0), 0, 0);
         battlePane.add(playerHealth, c);
         c = new GridBagConstraints(2, 3, 2, 1, .4, .4, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
         battlePane.add(playerIcon, c);
-        // c = new GridBagConstraints(1, 3, 1, 1, .125, .33, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
-        // battlePane.add(invisibleLabel, c);
         c = new GridBagConstraints(7, 0, 1, 1, .1, .1, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets(0,0,0,5), 0, 0);
         battlePane.add(enemyLabel, c);
         c = new GridBagConstraints(6, 1, 2, 1, .2, .1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0,0,0,5), 0, 0);
@@ -137,7 +134,6 @@ public class PaneBuilder {
         battlePane.add(buttonPanel, c);
 
         // Set up the background.
-        // Not Working
         try {
             c = new GridBagConstraints(0, 0, 8, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
             BufferedImage battleBackground;
@@ -145,7 +141,7 @@ public class PaneBuilder {
             JLabel picLabel = new JLabel(new ImageIcon(battleBackground));
             battlePane.add(picLabel, c);
         } catch (IOException ex) {
-            
+            System.out.println("Unable to load Battle_Background :(");
         }
     
         return battlePane;
