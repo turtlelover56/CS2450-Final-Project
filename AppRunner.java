@@ -7,7 +7,7 @@ public class AppRunner {
     AppRunner() {
         // Create the frame.
         JFrame jfrm = new JFrame("PokéPath! Definitely not copyrighted...");
-        jfrm.setSize(1500, 800);
+        jfrm.setSize(1250, 800);
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm.setResizable(false);
 
@@ -18,16 +18,18 @@ public class AppRunner {
         Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));
         JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, player, enemy);
         // Add startPane to the frame.
+        
         jfrm.add(battlePane);
 
         // Make the frame visible.
         jfrm.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        // Lambda expression (same as new Runnable() {...)
-        SwingUtilities.invokeLater(() -> {
-            new AppRunner();
+    public static void main(String args[]) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new AppRunner();
+            }
         });
     }
 }
