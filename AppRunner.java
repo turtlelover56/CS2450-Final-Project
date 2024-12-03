@@ -3,6 +3,7 @@
 */
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class AppRunner {
     AppRunner() {
@@ -18,12 +19,24 @@ public class AppRunner {
         JPanel startPane = PaneBuilder.buildStartPanel(jfrm, cards);
         // Build the battle menu.
         Player player = new Player(new InstanceEntity(new Entity("Player", 100, Entity.FIRE)));
+        java.util.List<Attack> attacks = new ArrayList<>();
+        attacks.add(new Attack(new Usable("Whack", false, false, new Effect(0, -1, 10, false))));
+        player.setSelectedAttacks(attacks);
+        player.addItem(new Item(new Usable("Health Potion", true, false, new Effect(2, -1, 20, true))));
         Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));
-        JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, player, enemy);
+        Encounter encounter = new Encounter(enemy, player);
+        JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, encounter);
+        encounter.setBattlePane(battlePane);
+        // Build the death screen.
+        JPanel deathPane = PaneBuilder.buildDeathPanel(jfrm, cards);
         
         // Add the panes to the frame.
         jfrm.add(startPane, "Start");
         jfrm.add(battlePane, "Battle");
+        jfrm.add(deathPane, "Death");
+
+        // Debugging tool to change screens instantly.
+        //changeScreen(cards, jfrm.getContentPane(), "Death");
 
         // Make the frame visible.
         jfrm.setVisible(true);

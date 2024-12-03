@@ -1,14 +1,15 @@
-
-import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
 
 public class Encounter {
     private Player player;
     private Enemy enemy;
+    private JPanel battlePane;
 
     // Constructor
     public Encounter(Enemy enemy, Player player) {
         this.enemy = enemy;
         this.player = player;
+        battlePane = null;
     }
 
     public boolean runEncounter() {
@@ -16,18 +17,35 @@ public class Encounter {
             enemyTurn();
         boolean running = checkStatus();
         while (running) {
-            playerTurn();
-            enemyTurn();
+            if (!playerTurn())
+                break; // Bad Practice :(
+            if (battlePane != null)
+                PaneBuilder.enableComponents(battlePane, false);
+            if (!enemyTurn())
+                break;
+            if (battlePane != null)
+                PaneBuilder.enableComponents(battlePane, true);
         }
-        // TODO: End of round events.
+        if (player.getCurrentHealth() <= 0)
+            return false;
+        else
+            return true;
     }
 
-    private boolean playerTurn() {
-        
+    protected boolean resolveAttack(Attack attack, boolean targetEnemy) {
+        return checkStatus();
     }
 
-    private boolean enemyTurn() {
+    protected boolean resolveItem(Item item, boolean targetEnemy) {
+        return checkStatus();
+    }
 
+    protected boolean playerTurn() {
+        return checkStatus();
+    }
+
+    protected boolean enemyTurn() {
+        return checkStatus();
     }
 
     /* Checks the status of the encounter. 
@@ -53,5 +71,11 @@ public class Encounter {
     }
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
-    }   
+    }
+    public JPanel getBattlePane() {
+        return battlePane;
+    }
+    public void setBattlePane(JPanel battlePane) {
+        this.battlePane = battlePane;
+    }
 }
