@@ -22,8 +22,11 @@ public class AppRunner {
         java.util.List<Attack> attacks = new ArrayList<>();
         attacks.add(new Attack(new Usable("Whack", false, false, new Effect(0, -1, 10, false))));
         player.setSelectedAttacks(attacks);
-        player.addItem(new Item(new Usable("Health Potion", true, false, new Effect(2, -1, 20, true))));
+        player.setAttacks(attacks);
+        player.addItem(new Item(new Usable("Health Potion", true, false, new Effect(2, -1, 50, true))));
         Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));
+        enemy.setAttacks(attacks);
+        enemy.setSelectedAttacks(attacks);
         Encounter encounter = new Encounter(enemy, player);
         JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, encounter);
         encounter.setBattlePane(battlePane);

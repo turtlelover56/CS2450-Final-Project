@@ -6,7 +6,7 @@ public class Item extends Usable {
         this(usable, 1);
     }
     public Item(Usable usable, int count) {
-        super(usable.getName(), usable.isTargetPlayer(), usable.isSwitchTarget(), usable.getEffect());
+        super(usable.getName(), usable.isTargetUser(), usable.isSwitchTarget(), usable.getEffect());
         this.count = count;
     }
     /* Changes count by 1. */

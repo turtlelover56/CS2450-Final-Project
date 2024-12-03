@@ -6,7 +6,7 @@ public class Attack extends Usable {
         this(90, usable);
     }
     public Attack(int accuracy, Usable usable) {
-        super(usable.getName(), usable.isTargetPlayer(), usable.isSwitchTarget(), usable.getEffect());
+        super(usable.getName(), usable.isTargetUser(), usable.isSwitchTarget(), usable.getEffect());
         this.accuracy = accuracy;
     }
    

@@ -83,6 +83,12 @@ public class PaneBuilder {
         // Create the components.
         JPanel battlePane = new JPanel();
         battlePane.setLayout(new GridBagLayout());
+        // Action scrollpane
+        JTextArea actionTextArea = new JTextArea();
+        actionTextArea.setEditable(false);
+        actionTextArea.setLineWrap(true);
+        JScrollPane actionScrollPane = new JScrollPane(actionTextArea);
+        actionScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // Player components
         JLabel playerLabel = new JLabel(player.getName());
         playerLabel.setFont(NORMAL_FONT);
@@ -117,12 +123,15 @@ public class PaneBuilder {
                 for (Attack attack : player.getSelectedAttacks())
                     if (attack.getName().equals(attackName))
                         encounter.resolveAttack(attack, true);
+                actionTextArea.setText(actionTextArea.getText() + player.getName() + " used " + attackName + ".\n");
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
                 attackList.clearSelection();
                 // Run the enemy's turn.
-                encounter.enemyTurn();
+                Attack enemyAttack = enemy.attack();
+                encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
+                actionTextArea.setText(actionTextArea.getText() + enemy.getName() + " used " + enemyAttack.getName() + ".\n");  
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
@@ -141,16 +150,19 @@ public class PaneBuilder {
                 String itemName = itemList.getSelectedValue();
                 for (Item item : player.getInventory())
                     if (item.getName().equals(itemName)) {
-                        encounter.resolveItem(item, true);
+                        encounter.resolveItem(item, !item.isTargetUser());
                         if (item.getCount() == 0)
                             ((DefaultListModel<String>) itemList.getModel()).removeElement(itemName);
                     }
+                actionTextArea.setText(actionTextArea.getText() + player.getName() + " used " + itemName + ".\n");
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
                 itemList.clearSelection();
                 // Run the enemy's turn.
-                encounter.enemyTurn();
+                Attack enemyAttack = enemy.attack();
+                encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
+                actionTextArea.setText(actionTextArea.getText() + enemy.getName() + " used " + enemyAttack.getName() + ".\n");             
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
@@ -176,13 +188,6 @@ public class PaneBuilder {
         itemsButton.setFont(NORMAL_FONT);
         JButton runButton = new JButton("Run");
         runButton.setFont(NORMAL_FONT);
-        // Action scrollpane
-        JTextArea actionTextArea = new JTextArea();
-        actionTextArea.setEditable(false);
-        actionTextArea.setLineWrap(true);
-        actionTextArea.setFont(NORMAL_FONT);
-        JScrollPane actionScrollPane = new JScrollPane(actionTextArea);
-        actionScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // TODO: Run confirmation
 
 
@@ -207,7 +212,7 @@ public class PaneBuilder {
         battlePane.add(enemyIcon, c);
         c = new GridBagConstraints(6, 3, 2, 3, .2, .5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(30,20,10,10), 0, 0);
         battlePane.add(buttonPanel, c);
-        c = new GridBagConstraints(0, 0, 4, 2, .8, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5,5,0,500), 0, 0);
+        c = new GridBagConstraints(0, 0, 4, 3, .8, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5,5,250,500), 0, 0);
         battlePane.add(actionScrollPane, c);
         c = new GridBagConstraints(5, 3, 1, 3, .1, .5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(30,450,10,0), 0, 0);
         battlePane.add(attackScrollPane, c);
