@@ -120,18 +120,23 @@ public class PaneBuilder {
         attackList.addListSelectionListener((ListSelectionEvent lse) -> {
             if (!attackList.isSelectionEmpty()) {
                 String attackName = attackList.getSelectedValue();
-                for (Attack attack : player.getSelectedAttacks())
-                    if (attack.getName().equals(attackName))
-                        encounter.resolveAttack(attack, true);
-                actionTextArea.setText(actionTextArea.getText() + player.getName() + " used " + attackName + ".\n");
+                int result = -2;
+                for (Attack attack : player.getSelectedAttacks()) {
+                    if (attack.getName().equals(attackName)) {
+                        result = encounter.resolveAttack(attack, !attack.isTargetUser());
+                        // Add the action to the action log.
+                        updateActionLog(actionTextArea, attack, result, player);
+                    }
+                }
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
                 attackList.clearSelection();
                 // Run the enemy's turn.
                 Attack enemyAttack = enemy.attack();
-                encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
-                actionTextArea.setText(actionTextArea.getText() + enemy.getName() + " used " + enemyAttack.getName() + ".\n");  
+                result = encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
+                // Add the action to the action log.
+                updateActionLog(actionTextArea, enemyAttack, result, enemy);
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
@@ -140,29 +145,30 @@ public class PaneBuilder {
         JScrollPane attackScrollPane = new JScrollPane(attackList);
         //attackScrollPane.setVisible(false);
         // Item List
-        java.util.List<Item> items = player.getInventory();
-        DefaultListModel<String> itemModel = new DefaultListModel<>();
-        for (Item item : items)
-            itemModel.addElement(item.getName());
-        JList<String> itemList = new JList<>(itemModel);
+        JList<String> itemList = new JList<>();
+        updateInventory(itemList, player);
         itemList.addListSelectionListener((ListSelectionEvent lse) -> {
             if (!itemList.isSelectionEmpty()) {
                 String itemName = itemList.getSelectedValue();
+                int result = -2;
                 for (Item item : player.getInventory())
                     if (item.getName().equals(itemName)) {
-                        encounter.resolveItem(item, !item.isTargetUser());
-                        if (item.getCount() == 0)
-                            ((DefaultListModel<String>) itemList.getModel()).removeElement(itemName);
+                        result = encounter.resolveItem(item, !item.isTargetUser());
+                        updateInventory(itemList, player);
+                        // Add the action to the action log.
+                        updateActionLog(actionTextArea, item, result, player);
+                        break; // Bad practice :(
                     }
-                actionTextArea.setText(actionTextArea.getText() + player.getName() + " used " + itemName + ".\n");
+                    
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
                 itemList.clearSelection();
                 // Run the enemy's turn.
                 Attack enemyAttack = enemy.attack();
-                encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
-                actionTextArea.setText(actionTextArea.getText() + enemy.getName() + " used " + enemyAttack.getName() + ".\n");             
+                result = encounter.resolveAttack(enemyAttack, enemyAttack.isTargetUser());
+                // Add the action to the action log.
+                updateActionLog(actionTextArea, enemyAttack, result, enemy);           
                 // Update health bars.
                 playerHealth.setValue(player.getCurrentHealth());
                 enemyHealth.setValue(enemy.getCurrentHealth());
@@ -212,7 +218,7 @@ public class PaneBuilder {
         battlePane.add(enemyIcon, c);
         c = new GridBagConstraints(6, 3, 2, 3, .2, .5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(30,20,10,10), 0, 0);
         battlePane.add(buttonPanel, c);
-        c = new GridBagConstraints(0, 0, 4, 3, .8, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5,5,250,500), 0, 0);
+        c = new GridBagConstraints(0, 0, 4, 3, .8, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5,5,250,475), 0, 0);
         battlePane.add(actionScrollPane, c);
         c = new GridBagConstraints(5, 3, 1, 3, .1, .5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(30,450,10,0), 0, 0);
         battlePane.add(attackScrollPane, c);
@@ -269,5 +275,25 @@ public class PaneBuilder {
             if (comp instanceof Container)
                 enableComponents((Container) comp, enable);
         }
+    }
+
+    private static void updateInventory(JList<String> itemList, Player player) {
+        java.util.List<Item> items = player.getInventory();
+        DefaultListModel<String> itemModel = new DefaultListModel<>();
+        for (Item item : items)
+            itemModel.addElement(item.getName());
+        itemList.setModel(itemModel);
+    }
+
+    private static void updateActionLog(JTextArea actionTextArea, Usable usable, int result, Entity user) {
+        // Add the action to the action log.
+        StringBuilder actionResult =  new StringBuilder(user.getName() + " used " + usable.getName() + ".\n");
+        if (result == -1)
+            actionResult.append("The attack missed!\n");
+        else if (result == 0)
+            actionResult.append("It was not very effective.\n");
+        else if (result == 2)
+            actionResult.append("It was very effective!\n");
+        actionTextArea.setText(actionTextArea.getText() + actionResult.toString());
     }
 }
