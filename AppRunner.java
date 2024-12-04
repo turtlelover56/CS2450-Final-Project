@@ -106,16 +106,26 @@ public class AppRunner {
 
             // Build the starting menu.
             JPanel startPane = PaneBuilder.buildStartPanel(jfrm, cards);
-            // Build the battle menu.
-            Player player = new Player(new InstanceEntity(new Entity("Player", 100, Entity.FIRE)));
-            java.util.List<Attack> attacks = new ArrayList<>();
-            attacks.add(new Attack(new Usable("Whack", false, false, new Effect(0, -1, 10, false))));
-            player.setSelectedAttacks(attacks);
-            player.setAttacks(attacks);
-            player.addItem(new Item(new Usable("Health Potion", true, false, new Effect(2, -1, 50, true))));
-            Enemy enemy = new Enemy(new InstanceEntity(new Entity("Enemy", 100, Entity.WATER)));
-            enemy.setAttacks(attacks);
-            enemy.setSelectedAttacks(attacks);
+            // Build the first battle menu.
+            // Create the player.
+            Player player = null;
+            for (Entity entity : entityDex) {
+                if (entity.getName().equals("Player")) {
+                    player = new Player(entity);
+                    break; // Bad Practice :(
+                }
+            }
+            for (Item item : itemDex) {
+                if (item.getName().equals("Health Potion") || item.getName().equals("Fire Bottle"))
+                    player.addItem(item);
+            }
+            Enemy enemy = null;
+            while (enemy == null) {
+                int roll = (int) (Math.random() * entityDex.size());
+                Entity chosenEntity = entityDex.get(roll);
+                if (!chosenEntity.getName().equals("Player"))
+                    enemy = new Enemy(chosenEntity);
+            }
             Encounter encounter = new Encounter(enemy, player);
             JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, encounter);
             encounter.setBattlePane(battlePane);
