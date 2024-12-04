@@ -70,4 +70,11 @@ public class Effect {
     public void setPercent(boolean percent) {
         this.percent = percent;
     }
+    
+    // toString
+    @Override
+    public String toString() {
+        return "Effect [generalType=" + generalType + ", specificType=" + specificType + ", power=" + power
+                + ", duration=" + duration + ", percent=" + percent + "]";
+    }
 }

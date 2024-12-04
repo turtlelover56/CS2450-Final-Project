@@ -50,4 +50,9 @@ public class Player extends InstanceEntity {
         this.inventory = inventory;
     }
 
+    // toString
+    @Override
+    public String toString() {
+        return "Player [inventory=" + inventory + "instance entity=" + super.toString() + "]";
+    }
 }

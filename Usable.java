@@ -37,4 +37,11 @@ public class Usable {
    public void setEffect(Effect effect) {
       this.effect = effect;
    }
+
+   // toString
+   @Override
+   public String toString() {
+      return "Usable [name=" + name + ", targetUser=" + targetUser + ", switchTarget=" + switchTarget + ", effect="
+            + effect + "]";
+   }
 }

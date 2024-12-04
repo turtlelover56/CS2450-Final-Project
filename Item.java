@@ -32,4 +32,10 @@ public class Item extends Usable {
     public void setCount(int count) {
         this.count = count;
     }
+    
+    // toString
+    @Override
+    public String toString() {
+        return "Item [count=" + count + ", usable=" + super.toString() + "]";
+    }
 }
