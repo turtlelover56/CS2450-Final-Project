@@ -3,6 +3,10 @@ public class Enemy extends InstanceEntity {
     private int intelligence;
 
     // Constructors
+    public Enemy(Entity entity) {
+        super(entity);
+        intelligence = 0;
+    }
     public Enemy(InstanceEntity instanceEntity) {
         this(0, instanceEntity);
     }
