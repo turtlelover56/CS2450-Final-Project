@@ -58,7 +58,7 @@ public class PaneBuilder {
             JLabel picLabel = new JLabel(new ImageIcon(startBackground));
             startPane.add(picLabel, c);
         } catch (IOException ex) {
-            
+            System.out.println("Unable to load background :(");
         }
 
         // Add action listeners to the buttons.
@@ -77,7 +77,7 @@ public class PaneBuilder {
         return startPane;
     }
 
-    static JPanel buildBattlePanel(JFrame jfrm, Encounter encounter) {
+    static JPanel buildBattlePanel(JFrame jfrm, CardLayout cards, Encounter encounter) {
         Player player = encounter.getPlayer();
         Enemy enemy = encounter.getEnemy();
         // Create the components.
@@ -229,14 +229,80 @@ public class PaneBuilder {
         try {
             c = new GridBagConstraints(0, 0, 8, 6, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
             BufferedImage battleBackground;
-            battleBackground = ImageIO.read(new File("Backgrounds/Battle_Background.png"));
+            int element = enemy.getElement();
+            String[] fileNames = {"Backgrounds/fire_background.png", "Backgrounds/water_background.png", "Backgrounds/lightning_background.png", "Backgrounds/wood_background.png"};
+            battleBackground = ImageIO.read(new File(fileNames[element]));
             JLabel picLabel = new JLabel(new ImageIcon(battleBackground));
             battlePane.add(picLabel, c);
         } catch (IOException ex) {
-            System.out.println("Unable to load Battle_Background :(");
+            System.out.println("Unable to load background :(");
         }
     
         return battlePane;
+    }
+
+    static JPanel buildIntermissionPanel(JFrame jfrm, CardLayout cards, Intermission intermission, Player player) {
+        // Create the components
+        JPanel intermissionPane = new JPanel(new GridBagLayout());
+        // Label
+        JLabel intermissionLabel = new JLabel("<html>" + intermission.getPrompt());
+        intermissionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        intermissionLabel.setBorder(BorderFactory.createEtchedBorder());
+        intermissionLabel.setOpaque(true);
+        intermissionLabel.setMinimumSize(new Dimension(800, 300));
+        // Buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        buttonPanel.setOpaque(false);
+        // Option Buttons
+        JButton optionOneButton = new JButton(intermission.getOptionOne());
+        buttonPanel.add(optionOneButton);
+        JButton optionTwoButton = new JButton(intermission.getOptionTwo());
+        buttonPanel.add(optionTwoButton);
+        // Next Button
+        JButton nextButton = new JButton("Next Encounter");
+        buttonPanel.add(nextButton);
+        nextButton.setVisible(false);
+        // Button Action Listeners
+        optionOneButton.addActionListener((ActionEvent ae) -> {
+            intermissionLabel.setText("<html>" + intermission.getResultOne());
+            optionOneButton.setVisible(false);
+            optionTwoButton.setVisible(false);
+            nextButton.setVisible(true);
+            player.addItem(new Item(intermission.getOptionOneItem(), intermission.getCountOne()));
+        });
+        optionTwoButton.addActionListener((ActionEvent ae) -> {
+            intermissionLabel.setText("<html>" + intermission.getResultTwo());
+            optionOneButton.setVisible(false);
+            optionTwoButton.setVisible(false);
+            nextButton.setVisible(true);
+            player.addItem(new Item(intermission.getOptionTwoItem(), intermission.getCountTwo()));
+        });
+        nextButton.addActionListener((ActionEvent ae) -> {
+            AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
+        });
+        // Set up GridBagConstraints.
+        JLabel invisibleLabel = new JLabel(); // As placeholders for the grid.
+        GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, .2, .1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+        intermissionPane.add(invisibleLabel, c);
+        invisibleLabel = new JLabel();
+        c = new GridBagConstraints(4, 2, 1, 1, .2, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
+        intermissionPane.add(invisibleLabel, c);
+        c = new GridBagConstraints(1, 1, 3, 1, .2, .6, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
+        intermissionPane.add(intermissionLabel, c);
+        c = new GridBagConstraints(2, 2, 1, 1, .6, .3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20,0,20,0), 0, 0);
+        intermissionPane.add(buttonPanel, c);
+
+        try {
+            c = new GridBagConstraints(0, 0, 5, 3, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
+            BufferedImage startBackground;
+            startBackground = ImageIO.read(new File("Backgrounds/Start_Background.png"));
+            JLabel picLabel = new JLabel(new ImageIcon(startBackground));
+            intermissionPane.add(picLabel, c);
+        } catch (IOException ex) {
+            System.out.println("Unable to load background :(");
+        }
+
+        return intermissionPane;
     }
 
     static JPanel buildDeathPanel(JFrame jfrm, CardLayout cards) {
