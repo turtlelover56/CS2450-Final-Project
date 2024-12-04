@@ -109,7 +109,7 @@ public class Encounter {
     /* Checks the status of the encounter. 
      * Returns false if player or enemy's health is below or equal to 0.
      * Else returns true. */
-    private boolean checkStatus() {
+    protected boolean checkStatus() {
         return !(player.getCurrentHealth() <= 0 || enemy.getCurrentHealth() <= 0);
     }
 
