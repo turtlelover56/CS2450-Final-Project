@@ -96,4 +96,11 @@ public class Entity {
     public void setAttackPose(ImageIcon attackPose) {
         this.attackPose = attackPose;
     }
+
+    // toString
+    @Override
+    public String toString() {
+        return "Entity [name=" + name + ", maxHealth=" + maxHealth + ", element=" + element + ", attacks=" + attacks
+                + ", defaultPose=" + defaultPose + ", attackPose=" + attackPose + "]";
+    }
 }

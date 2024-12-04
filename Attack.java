@@ -17,4 +17,10 @@ public class Attack extends Usable {
     public void setAccuracy(int accuracy) {
         this.accuracy = accuracy;
     }
+
+    // toString
+    @Override
+    public String toString() {
+        return "Attack [accuracy=" + accuracy + ", usable=" + super.toString();
+    }
 }

@@ -24,4 +24,9 @@ public class Enemy extends InstanceEntity {
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
+
+    @Override
+    public String toString() {
+        return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
+    }
 }
