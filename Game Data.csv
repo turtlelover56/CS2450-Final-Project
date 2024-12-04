@@ -1,0 +1,20 @@
+﻿Attack
+90,Whack,FALSE,FALSE,0,-1,10,0,FALSE
+90,Pokey Stick,FALSE,FALSE,0,3,5,0,TRUE
+85,Fire Breath,FALSE,FALSE,0,0,25,0,FALSE
+100,Healing Aura,TRUE,FALSE,2,-1,20,0,TRUE
+85,Water Ball,FALSE,FALSE,0,1,25,0,FALSE
+80,Rock Throw,FALSE,FALSE,0,-1,10,0,FALSE
+90,Bite,FALSE,FALSE,0,-1,20,0,FALSE
+5,Flop,FALSE,FALSE,0,-1,5,0,FALSE
+70,Lightning Strike,FALSE,TRUE,0,2,40,0,TRUE
+90,Wood Thwack,FALSE,TRUE,0,3,20,0,FALSE
+Item
+3,Health Potion,TRUE,FALSE,2,-1,30,0,TRUE
+3,Fire Bottle,FALSE,TRUE,0,0,20,0,TRUE
+Entity
+Forest Gremlin,80,3,Whack,Pokey Stick,Rock Throw,Sprites//Temp_Sprite_Default.png,Sprites//Temp_Sprite_Attack.png
+Fire Bat,70,0,Fire Breath,Bite,Sprites//Temp_Sprite_Default.png,Sprites//Temp_Sprite_Attack.png
+Flop Fish,60,1,Water Ball,Flop,Rock Throw,Sprites//Temp_Sprite_Default.png,Sprites//Temp_Sprite_Attack.png
+Thunder Cat,100,2,Bite,Whack,Lightning Strike,Sprites//Temp_Sprite_Default.png,Sprites//Temp_Sprite_Attack.png
+Player,100,?,Whack,Healing Aura,Sprites//Temp_Sprite_Default.png,Sprites//Temp_Sprite_Attack.png
