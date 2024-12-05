@@ -1,14 +1,15 @@
 public class Usable {
    private String name;
-   private boolean targetPlayer;
+   private boolean targetUser;
    private boolean switchTarget;
    private Effect effect;
 
    // Constructor
-   public Usable(String name, boolean targetPlayer, boolean switchTarget, Effect effect) {
+   public Usable(String name, boolean targetUser, boolean switchTarget, Effect effect) {
         this.name = name;
         this.switchTarget = switchTarget;
-        this.targetPlayer = targetPlayer;
+        this.targetUser = targetUser;
+        this.effect = effect;
    }
 
    // Getters/Setters
@@ -18,11 +19,11 @@ public class Usable {
    public void setName(String name) {
       this.name = name;
    }
-   public boolean isTargetPlayer() {
-      return targetPlayer;
+   public boolean isTargetUser() {
+      return targetUser;
    }
-   public void setTargetPlayer(boolean targetPlayer) {
-      this.targetPlayer = targetPlayer;
+   public void setTargetUser(boolean targetUser) {
+      this.targetUser = targetUser;
    }
    public boolean isSwitchTarget() {
       return switchTarget;
@@ -35,5 +36,12 @@ public class Usable {
    }
    public void setEffect(Effect effect) {
       this.effect = effect;
+   }
+
+   // toString
+   @Override
+   public String toString() {
+      return "Usable [name=" + name + ", targetUser=" + targetUser + ", switchTarget=" + switchTarget + ", effect="
+            + effect + "]";
    }
 }

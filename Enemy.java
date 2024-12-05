@@ -3,6 +3,10 @@ public class Enemy extends InstanceEntity {
     private int intelligence;
 
     // Constructors
+    public Enemy(Entity entity) {
+        super(entity);
+        intelligence = 0;
+    }
     public Enemy(InstanceEntity instanceEntity) {
         this(0, instanceEntity);
     }
@@ -23,5 +27,10 @@ public class Enemy extends InstanceEntity {
     }
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
+    }
+
+    @Override
+    public String toString() {
+        return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
     }
 }

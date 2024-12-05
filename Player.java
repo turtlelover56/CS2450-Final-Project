@@ -8,6 +8,10 @@ public class Player extends InstanceEntity {
     public Player(InstanceEntity instanceEntity) {
         this(new ArrayList<>(), instanceEntity);
     }
+    public Player(Entity entity) {
+        super(entity);
+        this.inventory = new ArrayList<>();
+    }
     public Player(List<Item> inventory, InstanceEntity instanceEntity) {
         super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
         this.inventory = inventory;
@@ -46,4 +50,9 @@ public class Player extends InstanceEntity {
         this.inventory = inventory;
     }
 
+    // toString
+    @Override
+    public String toString() {
+        return "Player [inventory=" + inventory + "instance entity=" + super.toString() + "]";
+    }
 }

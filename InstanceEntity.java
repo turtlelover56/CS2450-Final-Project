@@ -54,4 +54,10 @@ public class InstanceEntity extends Entity {
     public void setSelectedAttacks(List<Attack> selectedAttacks) {
         this.selectedAttacks = selectedAttacks;
     }
+
+    // toString
+    @Override
+    public String toString() {
+        return "InstanceEntity [currentHealth=" + currentHealth + ", selectedAttacks=" + selectedAttacks + ", entity=" + super.toString() + "]";
+    }
 }
