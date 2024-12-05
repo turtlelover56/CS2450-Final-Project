@@ -159,7 +159,7 @@ public class AppRunner {
             jfrm.add(deathPane, "Death");
 
             // Debugging tool to change screens instantly.
-            changeScreen(cards, jfrm.getContentPane(), "Intermission");
+            //changeScreen(cards, jfrm.getContentPane(), "Intermission");
 
             // Make the frame visible.
             jfrm.setVisible(true);

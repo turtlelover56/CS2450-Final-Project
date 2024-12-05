@@ -287,9 +287,9 @@ public class PaneBuilder {
         invisibleLabel = new JLabel();
         c = new GridBagConstraints(4, 2, 1, 1, .2, .2, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0);
         intermissionPane.add(invisibleLabel, c);
-        c = new GridBagConstraints(1, 1, 3, 1, .2, .6, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
+        c = new GridBagConstraints(1, 1, 3, 1, .3, .6, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0);
         intermissionPane.add(intermissionLabel, c);
-        c = new GridBagConstraints(2, 2, 1, 1, .6, .3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20,0,20,0), 0, 0);
+        c = new GridBagConstraints(2, 2, 1, 1, .3, .3, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(20,0,20,0), 0, 0);
         intermissionPane.add(buttonPanel, c);
 
         try {
