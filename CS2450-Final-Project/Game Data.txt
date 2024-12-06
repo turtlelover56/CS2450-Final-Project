@@ -1,0 +1,22 @@
+Attack								
+90	Whack	FALSE	FALSE	0	-1	10	0	FALSE
+90	Pokey Stick	FALSE	FALSE	0	3	5	0	TRUE
+85	Fire Breath	FALSE	FALSE	0	0	25	0	FALSE
+100	Healing Aura	TRUE	FALSE	2	-1	20	0	TRUE
+85	Water Ball	FALSE	FALSE	0	1	25	0	FALSE
+80	Rock Throw	FALSE	FALSE	0	-1	10	0	FALSE
+90	Bite	FALSE	FALSE	0	-1	20	0	FALSE
+5	Flop	FALSE	FALSE	0	-1	5	0	FALSE
+70	Lightning Strike	FALSE	TRUE	0	2	40	0	TRUE
+80	Wood Thwack	FALSE	FALSE	0	3	30	0	FALSE
+Item								
+Health Potion	TRUE	FALSE	2	-1	30	0	TRUE	
+Fire Bottle	FALSE	TRUE	0	0	20	0	TRUE	
+Entity								
+Forest Gremlin	80	3	Whack	Pokey Stick	Rock Throw	Sprites//Forest_Gremlin.png	Sprites//Temp_Sprite_Attack.png	
+Fire Bat	70	0	Fire Breath	Bite	Sprites//Fire_Bat.png	Sprites//Temp_Sprite_Attack.png			
+Flop Fish	60	1	Water Ball	Flop	Rock Throw	Sprites//Flop_Fish.png	Sprites//Temp_Sprite_Attack.png	
+Thunder Cat	100	2	Bite	Whack	Lightning Strike	Sprites//Thunder_Cat.png	Sprites//Temp_Sprite_Attack.png	
+Player	100	?	Whack	Healing Aura	Sprites//Player.png	Sprites//Temp_Sprite_Attack.png		
+Intermission								
+"You arrive at a bustling city. It's time to restock for the battles ahead, but you only have enough coin left for one item!"	Buy a health potion.	Buy a fire bottle.	Health Potion	Fire Bottle	2	1	You decided that your life was the most important thing and visited the potion shop. After seeing your ragged appearance the shopkeeper gave you another health potion for free!	What could go wrong with more fire? You visit the weapons shop and buy a fire bottle to keep the beasts at bay.
