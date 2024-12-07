@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AppRunner {
+	static BattleStats stats = new BattleStats();
 
 	AppRunner() {
 
@@ -183,5 +184,9 @@ public class AppRunner {
 	public static void changeScreen(CardLayout cards, Container container, String string) {
 		// Changes screen to whichever screen is specified in "string"
 		cards.show(container, string);
+	}
+	
+	public static BattleStats getBattleStats() {
+		return stats;
 	}
 }

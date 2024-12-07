@@ -2,7 +2,9 @@ import java.awt.*;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,15 +40,15 @@ public class PaneBuilder {
 		JButton startButton = new JButton("Start");
 		startButton.setFont(NORMAL_FONT);
 
-		JButton optionsButton = new JButton("Options");
-		optionsButton.setFont(NORMAL_FONT);
+		JButton statsButton = new JButton("Stats");
+		statsButton.setFont(NORMAL_FONT);
 
 		JButton exitButton = new JButton("Exit");
 		exitButton.setFont(NORMAL_FONT);
 
 		// Add the buttons to the buttonPanel
 		buttonPanel.add(startButton);
-		buttonPanel.add(optionsButton);
+		buttonPanel.add(statsButton);
 		buttonPanel.add(exitButton);
 
 		// Set up GridBagConstraints
@@ -80,8 +82,9 @@ public class PaneBuilder {
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
 		});
 
-		optionsButton.addActionListener((ActionEvent ae) -> {
-			// TODO - Create Options Panel
+		statsButton.addActionListener((ActionEvent ae) -> {
+			// Changes the screen to the statistics screen.
+			showStatusPanel();
 		});
 
 		exitButton.addActionListener((ActionEvent ae) -> {
@@ -91,6 +94,23 @@ public class PaneBuilder {
 
 		return startPane;
 	}
+
+	// Shows the stats of the player (unless it's their first time playing, see below).
+	static void showStatusPanel() {
+        StringBuilder statistics = new StringBuilder();
+        try {
+            // Read the statistics from the file
+            BufferedReader reader = new BufferedReader(new FileReader("Statistics.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) { 
+                statistics.append(line).append("\n");
+            }
+            reader.close();
+        } catch (IOException e) {
+            statistics.append("No statistics file yet. Play the game!"); // The game will make a .txt once you win or lose a fight!
+        }
+        JOptionPane.showMessageDialog(null, statistics.toString(), "Battle Statistics", JOptionPane.INFORMATION_MESSAGE);
+    }
 
 	/** Builds the Battle Screen Panel
 	 * 
@@ -173,6 +193,7 @@ public class PaneBuilder {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
+					AppRunner.getBattleStats().win();
 				}
 
 				attackList.clearSelection();
@@ -189,6 +210,7 @@ public class PaneBuilder {
 				// Check to see if the player is dead; if true, show death screen
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
+					AppRunner.getBattleStats().lose();
 				}
 			}
 		});
