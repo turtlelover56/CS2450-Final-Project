@@ -1,5 +1,7 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,11 +10,16 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 
-public class PaneBuilder {
+public class PaneBuilder  {
 	// Fonts & Color
 	private static final Font NORMAL_FONT = new Font("Serif", Font.PLAIN, 30);
 	private static final Font TITLE_FONT = new Font("Serif", Font.BOLD, 55);
 	private static final Color HEALTH_RED = new Color(255, 100, 100);
+
+	private static JPanel battlePane;
+	
+
+	private static int battleCount = -1;
 	
 	/** Builds the Starting Menu Panel
 	 * 
@@ -77,11 +84,40 @@ public class PaneBuilder {
 		// Action Listeners
 		startButton.addActionListener((ActionEvent ae) -> {
 			// Changes the screen to the battle screen.
+			if (battleCount == 0) 
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
+			else {
+			// TODO Fix Method's of getting New Entity's/Items
+
+			//Call For defined Entity/Item Index
+			List<Entity> tempEntityDex = AppRunner.getEntityDex();
+			//Calls Sprites, Develop New Method
+			//tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
+    		List<Usable> tempItemDex = AppRunner.getItemDex();
+			//Issues, call Temps Sprite for Cat
+			tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
+			
+			
+			System.out.println("Help!");	//SystemPrint
+
+			//Creat a New BattlepANE
+			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
+
+			//Add Pane to jfrm, Panel is Now Apart of Card Layout
+			AppRunner.addPane(tempBattlePane, "NewBattle");
+		
+			//Change to the "NewBattle" screen (card)
+			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
+			}
+
 		});
 
 		optionsButton.addActionListener((ActionEvent ae) -> {
-			// TODO - Create Options Panel
+			// TODO Develop Method to Display Longest Win Count
+
+			//Temporary Option Pane, Displays the Number of Battles
+			//Change to show Longest Battle Streak
+			JOptionPane.showMessageDialog(null, "Current Number of Battles: " + battleCount);
 		});
 
 		exitButton.addActionListener((ActionEvent ae) -> {
@@ -98,15 +134,18 @@ public class PaneBuilder {
 	 * @param cards	the CardLayout
 	 * @param encounter	the player and the enemy
 	 * 
+	 * @param currentBattlePane
+	 * 
 	 * @return	the GUI/panel of the battle screen
 	 */
 	static JPanel buildBattlePanel(JFrame jfrm, CardLayout cards, Encounter encounter) {
+
 
 		Player player = encounter.getPlayer();
 		Enemy enemy = encounter.getEnemy();
 
 		// Components - 1 Main Panel, 1 TextArea (Scrollable)
-		JPanel battlePane = new JPanel();
+		battlePane = new JPanel();
 		battlePane.setLayout(new GridBagLayout());
 
 		JTextArea actionTextArea = new JTextArea();
@@ -311,6 +350,8 @@ public class PaneBuilder {
 			System.out.println("Unable to load background :(");
 		}
 	
+		// TODO Set to Zero After Death
+		battleCount++;
 		return battlePane;
 	}
 
@@ -321,6 +362,8 @@ public class PaneBuilder {
 	 * @param cards	the CardLayout
 	 * @param intermission	the Intermission prompt
 	 * @param player	the player
+	 * 
+	 * 
 	 * 
 	 * @return	the GUI/panel of the intermission screen
 	 */
@@ -370,9 +413,29 @@ public class PaneBuilder {
 			player.addItem(new Item(intermission.getOptionTwoItem(), intermission.getCountTwo()));
 		});
 
+
 		nextButton.addActionListener((ActionEvent ae) -> {
-			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
+			//Call For defined Entity/Item Index
+			List<Entity> tempEntityDex = AppRunner.getEntityDex();
+			tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
+    		List<Usable> tempItemDex = AppRunner.getItemDex();
+			tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
+			
+			System.out.println("Help!");	//SystemPrint
+
+			//Creat a New BattlepANE
+			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
+
+			//Add Pane to jfrm, Panel is Now Apart of Card Layout
+			AppRunner.addPane(tempBattlePane, "NewBattle");
+		
+			//Change to the "NewBattle" screen (card)
+			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
 		});
+		
+		
+		
+		
 
 
 		// Set up GridBagConstraints.

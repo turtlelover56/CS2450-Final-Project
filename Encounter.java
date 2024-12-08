@@ -11,6 +11,8 @@ public class Encounter {
         this.player = player;
         battlePane = null;
     }
+   
+    
 
     // public boolean runEncounter() {
     //     if (roll(0, 1) == 1);

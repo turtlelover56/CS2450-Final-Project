@@ -87,4 +87,9 @@ public class Intermission {
                 + ", optionOneItem=" + optionOneItem + ", optionTwoItem=" + optionTwoItem + ", countOne=" + countOne
                 + ", countTwo=" + countTwo + ", resultOne=" + resultOne + ", resultTwo=" + resultTwo + "]";
     }
+
+    public String getText() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getText'");
+    }
 }
