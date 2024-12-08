@@ -19,10 +19,10 @@ public class Item extends Usable {
 		return changeCount(-1);
 	}
 	/* Changes count by the specified amount.
-	 * Returns false if count <= 0, else returns true. */
+	 * Returns true if count > 0, else returns false. */
 	public boolean changeCount(int change) {
 		count += change;
-		return count <= 0;
+		return count > 0;
 	}
 
 	// Getters/Setters
