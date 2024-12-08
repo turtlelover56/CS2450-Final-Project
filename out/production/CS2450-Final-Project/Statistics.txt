@@ -1,0 +1,3 @@
+Number of wins: 9
+Number of losses: 3
+Win rate: 75.00%

@@ -1,11 +1,13 @@
 import java.awt.*;
-import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -45,7 +47,7 @@ public class PaneBuilder  {
 		JButton startButton = new JButton("Start");
 		startButton.setFont(NORMAL_FONT);
 
-		JButton statsButton = new JButton("Stats");
+		JButton statsButton = new JButton("Battle Stats");
 		statsButton.setFont(NORMAL_FONT);
 
 		JButton exitButton = new JButton("Exit");
@@ -306,12 +308,18 @@ public class PaneBuilder  {
 
 		JButton attackButton = new JButton("Attack");
 		attackButton.setFont(NORMAL_FONT);
+		attackButton.setForeground(Color.BLACK);
+		attackButton.setBackground(Color.PINK);
 
 		JButton itemsButton = new JButton("Items");
 		itemsButton.setFont(NORMAL_FONT);
+		itemsButton.setForeground(Color.BLACK);
+		itemsButton.setBackground(Color.ORANGE);
 
 		JButton runButton = new JButton("Run");
 		runButton.setFont(NORMAL_FONT);
+		runButton.setForeground(Color.BLACK);
+		runButton.setBackground(Color.CYAN);
 		
 		attackButton.addActionListener((ActionEvent ae) -> {
 			itemScrollPane.setVisible(false);
@@ -401,12 +409,15 @@ public class PaneBuilder  {
 
 		JButton optionOneButton = new JButton(intermission.getOptionOne());
 		optionOneButton.setFont(NORMAL_FONT);
+		optionOneButton.setBackground(new Color(186,225,255));
 
 		JButton optionTwoButton = new JButton(intermission.getOptionTwo());
 		optionTwoButton.setFont(NORMAL_FONT);
+		optionTwoButton.setBackground(new Color(186,225,255));
 
 		JButton nextButton = new JButton("Next Encounter");
 		nextButton.setFont(NORMAL_FONT);
+		nextButton.setBackground(new Color(255, 255, 186));
 		nextButton.setVisible(false);
 
 		// Add buttons to buttonPanel
@@ -496,7 +507,21 @@ public class PaneBuilder  {
 
 		JButton returnButton = new JButton("Return to Menu?");
 		returnButton.setFont(NORMAL_FONT);
-		returnButton.setBackground(Color.LIGHT_GRAY);
+		returnButton.setForeground(Color.WHITE);
+		returnButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		returnButton.setBackground(Color.BLACK);
+
+		//Bold on hover
+		returnButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				returnButton.setFont(returnButton.getFont().deriveFont(Font.BOLD));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				returnButton.setFont(NORMAL_FONT);
+			}
+		});
 
 		// Action Listener
 		returnButton.addActionListener((ActionEvent ae) -> {

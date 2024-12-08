@@ -1,13 +1,13 @@
 /*
 	The Swing implementation and main method for PokéPath.
 */
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.*;
 
 public class AppRunner {
 
