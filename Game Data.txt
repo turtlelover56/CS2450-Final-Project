@@ -7,10 +7,10 @@ Attack
 80	Rock Throw	FALSE	FALSE	0	-1	10	0	FALSE
 90	Bite	FALSE	FALSE	0	-1	20	0	FALSE
 5	Flop	FALSE	FALSE	0	-1	5	0	FALSE
-70	Lightning Strike	FALSE	TRUE	0	2	40	0	TRUE
+50	Lightning Strike	FALSE	TRUE	0	2	40	0	TRUE
 80	Wood Thwack	FALSE	FALSE	0	3	30	0	FALSE
 Item								
-Health Potion	TRUE	FALSE	2	-1	30	0	TRUE	
+Health Potion	TRUE	FALSE	2	-1	50	0	TRUE	
 Fire Bottle	FALSE	TRUE	0	0	20	0	TRUE	
 Entity								
 Forest Gremlin	80	3	Whack	Pokey Stick	Rock Throw	Sprites//Forest_Gremlin.png	Sprites//Temp_Sprite_Attack.png	
