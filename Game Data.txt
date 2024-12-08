@@ -12,11 +12,13 @@ Attack
 Item								
 Health Potion	TRUE	FALSE	2	-1	50	0	TRUE	
 Fire Bottle	FALSE	TRUE	0	0	20	0	TRUE	
+Throwing Stick	FALSE	TRUE	0	3	10	0	FALSE	
 Entity								
 Forest Gremlin	80	3	Whack	Pokey Stick	Rock Throw	Sprites//Forest_Gremlin.png	Sprites//Temp_Sprite_Attack.png	
-Fire Bat	70	0	Fire Breath	Bite	Sprites//Fire_Bat.png	Sprites//Temp_Sprite_Attack.png			
+Fire Bat	70	0	Fire Breath	Bite	Sprites//Fire_Bat.png	Sprites//Temp_Sprite_Attack.png		
 Flop Fish	60	1	Water Ball	Flop	Rock Throw	Sprites//Flop_Fish.png	Sprites//Temp_Sprite_Attack.png	
 Thunder Cat	100	2	Bite	Whack	Lightning Strike	Sprites//Thunder_Cat.png	Sprites//Temp_Sprite_Attack.png	
-Player	100	?	Whack	Healing Aura	Sprites//Player.png	Sprites//Temp_Sprite_Attack.png		
+Player	100	-1	Whack	Healing Aura	Sprites//Player.png	Sprites//Temp_Sprite_Attack.png		
 Intermission								
-"You arrive at a bustling city. It's time to restock for the battles ahead, but you only have enough coin left for one item!"	Buy a health potion.	Buy a fire bottle.	Health Potion	Fire Bottle	2	1	You decided that your life was the most important thing and visited the potion shop. After seeing your ragged appearance the shopkeeper gave you another health potion for free!	What could go wrong with more fire? You visit the weapons shop and buy a fire bottle to keep the beasts at bay.
+You arrive at a bustling city. It's time to restock for the battles ahead, but you only have enough coin left for one item!	Buy a health potion.	Buy a fire bottle.	Health Potion	Fire Bottle	2	1	You decided that your life was the most important thing and visited the potion shop. After seeing your ragged appearance the shopkeeper gave you another health potion for free!	What could go wrong with more fire? You visit the weapons shop and buy a fire bottle to keep the beasts at bay.
+A dark woods blocks your path. Where there is great risk there is supposedly great reward, but does that hold here?	Go through the dark woods.	Go around the dark woods.	Fire Bottle	Throwing Stick	2	3	You decided the risk was worth it and ventured through the dark woods. Luckily, you didn't run into any monsters, and you found two fire bottles left on the ground for some reason...	While there could be great reward, you decided your life was worth more and went around the woods. At least you picked up three throwing sticks along the way?
