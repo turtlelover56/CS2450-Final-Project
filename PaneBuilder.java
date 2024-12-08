@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -97,15 +95,17 @@ public class PaneBuilder  {
 			//tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
     		List<Usable> tempItemDex = AppRunner.getItemDex();
 			//Issues, call Temps Sprite for Cat
-			tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
+
+			// What is going on here?
+			//tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
 			
 			
 			System.out.println("Help!");	//SystemPrint
 
-			//Creat a New BattlepANE
+			//Creat a New Battlepane
 			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
 
-			//Add Pane to jfrm, Panel is Now Apart of Card Layout
+			//Add Pane to jfrm, Panel is Now a part of Card Layout
 			AppRunner.addPane(tempBattlePane, "NewBattle");
 		
 			//Change to the "NewBattle" screen (card)
@@ -114,18 +114,9 @@ public class PaneBuilder  {
 
 		});
 
-<<<<<<< HEAD
-		optionsButton.addActionListener((ActionEvent ae) -> {
-			// TODO Develop Method to Display Longest Win Count
-
-			//Temporary Option Pane, Displays the Number of Battles
-			//Change to show Longest Battle Streak
-			JOptionPane.showMessageDialog(null, "Current Number of Battles: " + battleCount);
-=======
 		statsButton.addActionListener((ActionEvent ae) -> {
 			// Changes the screen to the statistics screen.
 			showStatusPanel();
->>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
 		});
 
 		exitButton.addActionListener((ActionEvent ae) -> {
@@ -450,7 +441,7 @@ public class PaneBuilder  {
 			
 			System.out.println("Help!");	//SystemPrint
 
-			//Creat a New BattlepANE
+			//Creat a New Battlepane
 			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
 
 			//Add Pane to jfrm, Panel is Now Apart of Card Layout
@@ -459,10 +450,6 @@ public class PaneBuilder  {
 			//Change to the "NewBattle" screen (card)
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
 		});
-		
-		
-		
-		
 
 
 		// Set up GridBagConstraints.

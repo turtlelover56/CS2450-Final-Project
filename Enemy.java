@@ -1,23 +1,6 @@
 import java.util.List;
 
 public class Enemy extends InstanceEntity {
-<<<<<<< HEAD
-    
-    private int intelligence;
-
-    // Constructors
-    public Enemy(Entity chosenEntity) {
-        super(chosenEntity);
-        intelligence = 0;
-    }
-    public Enemy(InstanceEntity instanceEntity) {
-        this(0, instanceEntity);
-    }
-    public Enemy(int intelligence, InstanceEntity instanceEntity) {
-        super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
-        this.intelligence = intelligence;
-    }
-=======
 	private int intelligence;
 
 	// Constructors
@@ -32,7 +15,6 @@ public class Enemy extends InstanceEntity {
 		super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
 		this.intelligence = intelligence;
 	}
->>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
 
 	/* Method to change health by given amount. 
 	 * Returns true if health is > 0, else returns false.*/
@@ -48,28 +30,22 @@ public class Enemy extends InstanceEntity {
 		this.intelligence = intelligence;
 	}
 
-<<<<<<< HEAD
     @Override
     public String toString() {
         return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
     }
+	
     // Method to generate a new enemy
-public Enemy generateNewEnemy(List<Entity> entityDex) {
-    Enemy enemy = null;
-    while (enemy == null) {
-        int roll = (int) (Math.random() * entityDex.size());
-        Entity chosenEntity = entityDex.get(roll);
-        if (!chosenEntity.getName().equals("Player"))
-            enemy = new Enemy(chosenEntity);
-    }
-    return enemy;
-=======
-	@Override
-	public String toString() {
-		return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
+	public Enemy generateNewEnemy(List<Entity> entityDex) {
+		Enemy enemy = null;
+		while (enemy == null) {
+			int roll = (int) (Math.random() * entityDex.size());
+			Entity chosenEntity = entityDex.get(roll);
+			if (!chosenEntity.getName().equals("Player"))
+				enemy = new Enemy(chosenEntity);
+		}
+		return enemy;
 	}
->>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
-}
 
 }
 

@@ -5,43 +5,12 @@ public class Encounter {
 	private Enemy enemy;
 	private JPanel battlePane;
 
-<<<<<<< HEAD
     // Constructor
     public Encounter(Enemy enemy, Player player) {
         this.enemy = enemy;
         this.player = player;
         battlePane = null;
     }
-   
-    
-=======
-	// Constructor
-	public Encounter(Enemy enemy, Player player) {
-		this.enemy = enemy;
-		this.player = player;
-		battlePane = null;
-	}
->>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
-
-	// public boolean runEncounter() {
-	//	 if (roll(0, 1) == 1);
-	//		 enemyTurn();
-	//	 boolean running = checkStatus();
-	//	 while (running) {
-	//		 if (!playerTurn())
-	//			 break; // Bad Practice :(
-	//		 if (battlePane != null)
-	//			 PaneBuilder.enableComponents(battlePane, false);
-	//		 if (!enemyTurn())
-	//			 break;
-	//		 if (battlePane != null)
-	//			 PaneBuilder.enableComponents(battlePane, true);
-	//	 }
-	//	 if (player.getCurrentHealth() <= 0)
-	//		 return false;
-	//	 else
-	//		 return true;
-	// }
 
 	protected int resolveAttack(Attack attack, boolean targetEnemy) {
 		if (Math.random() < attack.getAccuracy())
