@@ -55,10 +55,7 @@ public class AppRunner {
                         case "Entity":
                             List<Attack> entityAttackList = new ArrayList<>();
                             int element;
-                            if (line[2].equals("?"))
-                                element = -1;
-                            else
-                                element = Integer.parseInt(line[2]);
+                            element = Integer.parseInt(line[2]);
                             Entity entity = new Entity(line[0], Integer.parseInt(line[1]), element);
                             for (int i = 3; i < line.length - 2; i++) {
                                 for (int j = 0; j < attackDex.size(); j++) {

@@ -400,7 +400,7 @@ public class PaneBuilder  {
 			optionOneButton.setVisible(false);
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
-			player.addItem(new Item(intermission.getOptionOneItem(), intermission.getCountOne()));
+			player.addItem(intermission.getOptionOneItem());
 			updateInventory(itemList, player);
 		});
 
@@ -409,7 +409,7 @@ public class PaneBuilder  {
 			optionOneButton.setVisible(false);
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
-			player.addItem(new Item(intermission.getOptionTwoItem(), intermission.getCountTwo()));
+			player.addItem(intermission.getOptionTwoItem());
 			updateInventory(itemList, player);
 		});
 

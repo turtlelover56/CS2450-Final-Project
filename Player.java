@@ -24,9 +24,13 @@ public class Player extends InstanceEntity {
 		for (Item item : inventory)
 			if (item.getName().equals(newItem.getName())) {
 				item.changeCount(newItem.getCount());
+				// Debug print
+				// System.out.println("Count changed: " + item.getName() + " " + item.getCount());
 				return 1;
 			}
 		inventory.add(newItem);
+		// Debug print
+		//System.out.println("Item added: " + newItem.getName() + " " + newItem.getCount());
 		return 0;
 	}
 	/* Adds the specified item to the inventory.
