@@ -6,3 +6,5 @@ See how long you can survive! But if you feel like you might die, run!
 
 To play the game, download all files and run AppRunner.java.
 We hope you enjoy!
+
+(Our GitHub: https://github.com/turtlelover56/CS2450-Final-Project)
