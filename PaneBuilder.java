@@ -18,9 +18,6 @@ public class PaneBuilder  {
 
 	private static JPanel battlePane;
 	
-
-	private static int battleCount = -1;
-	
 	/** Builds the Starting Menu Panel
 	 * 
 	 * @param jfrm	the JFrame (needed for action listeners to work)
@@ -84,34 +81,7 @@ public class PaneBuilder  {
 		// Action Listeners
 		startButton.addActionListener((ActionEvent ae) -> {
 			// Changes the screen to the battle screen.
-			if (battleCount == 0) 
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
-			else {
-			// TODO Fix Method's of getting New Entity's/Items
-
-			//Call For defined Entity/Item Index
-			List<Entity> tempEntityDex = AppRunner.getEntityDex();
-			//Calls Sprites, Develop New Method
-			//tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
-    		List<Usable> tempItemDex = AppRunner.getItemDex();
-			//Issues, call Temps Sprite for Cat
-
-			// What is going on here?
-			//tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
-			
-			
-			System.out.println("Help!");	//SystemPrint
-
-			//Creat a New Battlepane
-			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
-
-			//Add Pane to jfrm, Panel is Now a part of Card Layout
-			AppRunner.addPane(tempBattlePane, "NewBattle");
-		
-			//Change to the "NewBattle" screen (card)
-			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
-			}
-
 		});
 
 		statsButton.addActionListener((ActionEvent ae) -> {
@@ -228,6 +198,7 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
+					AppRunner.setUpNewBattle(jfrm, cards);
 					AppRunner.getBattleStats().win();
 				}
 
@@ -245,6 +216,8 @@ public class PaneBuilder  {
 				// Check to see if the player is dead; if true, show death screen
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
+					AppRunner.createPlayer();
+					AppRunner.setUpNewBattle(jfrm, cards);
 					AppRunner.getBattleStats().lose();
 				}
 			}
@@ -277,6 +250,8 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
+					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.getBattleStats().win();
 				}
 
 				itemList.clearSelection();
@@ -293,9 +268,13 @@ public class PaneBuilder  {
 				// Check to see if the player is dead; if true, show death screen
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
+					AppRunner.createPlayer();
+					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.getBattleStats().lose();
 				}
 			}
 		});
+		
 		JScrollPane itemScrollPane = new JScrollPane(itemList);
 
 
@@ -325,6 +304,7 @@ public class PaneBuilder  {
 		
 		runButton.addActionListener((ActionEvent ae) -> {
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Start");
+			AppRunner.setUpNewBattle(jfrm, cards);
 		});
 
 
@@ -368,8 +348,6 @@ public class PaneBuilder  {
 			System.out.println("Unable to load background :(");
 		}
 	
-		// TODO Set to Zero After Death
-		battleCount++;
 		return battlePane;
 	}
 
@@ -433,22 +411,8 @@ public class PaneBuilder  {
 
 
 		nextButton.addActionListener((ActionEvent ae) -> {
-			//Call For defined Entity/Item Index
-			List<Entity> tempEntityDex = AppRunner.getEntityDex();
-			tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
-    		List<Usable> tempItemDex = AppRunner.getItemDex();
-			tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
-			
-			System.out.println("Help!");	//SystemPrint
-
-			//Creat a New Battlepane
-			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
-
-			//Add Pane to jfrm, Panel is Now Apart of Card Layout
-			AppRunner.addPane(tempBattlePane, "NewBattle");
-		
-			//Change to the "NewBattle" screen (card)
-			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
+			//Change to the "Battle" screen (card)
+			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
 		});
 
 
