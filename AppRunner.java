@@ -18,6 +18,7 @@ public class AppRunner {
     private static List<Entity> entityDex;
     private static List<Usable> itemDex;
     private static List<Attack> attackDex;
+    private static List<Intermission> intermissionDex;
     private static BattleStats stats = new BattleStats();
 
     public AppRunner() {
@@ -36,7 +37,7 @@ public class AppRunner {
             attackDex = new ArrayList<>();
             itemDex = new ArrayList<>();
             entityDex = new ArrayList<>();
-            List<Intermission> intermissionDex = new ArrayList<>();
+            intermissionDex = new ArrayList<>();
 
             // Read game data.
             while (sc.hasNextLine()) {
@@ -112,11 +113,10 @@ public class AppRunner {
 
 			// Build Battle Menu -> Create Player and Random Enemy
 			createPlayer();
-			setUpNewBattle(jfrm, cards);
+			setUpNewBattle();
 
 			// Build Intermission Menu
-			Intermission intermission = intermissionDex.get((int) (Math.random() * intermissionDex.size()));
-			JPanel intermissionPane = PaneBuilder.buildIntermissionPanel(jfrm, cards, intermission, player);
+			JPanel intermissionPane = PaneBuilder.buildIntermissionPanel(jfrm, cards, intermissionDex, player);
 
 			// Build Death Menu
 			JPanel deathPane = PaneBuilder.buildDeathPanel(jfrm, cards);
@@ -152,9 +152,7 @@ public class AppRunner {
 	}
 
     // Method to build a new battle panel
-    public static void setUpNewBattle(JFrame jfrm, CardLayout cards) {
-        if (currentBattlePane != null)
-            jfrm.remove(currentBattlePane);
+    public static void setUpNewBattle() {
         player.setCurrentHealth(player.getMaxHealth());
         Enemy enemy = createRandomEnemy();
         Encounter encounter = new Encounter(enemy, player);
@@ -182,7 +180,7 @@ public class AppRunner {
     }
 
     //Adds Pane to jfrm
-    //jfrm Uses CardLayout, so Pane is now Apart of CardLayout
+    //jfrm Uses CardLayout, so Pane is now a part of CardLayout
     public static void addPane(JPanel panel, String cardName) {
         jfrm.add(panel, cardName);  //Add Pane w/ Specified Name
     }

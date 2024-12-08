@@ -16,7 +16,7 @@ public class PaneBuilder  {
 	private static final Font TITLE_FONT = new Font("Serif", Font.BOLD, 55);
 	private static final Color HEALTH_RED = new Color(255, 100, 100);
 
-	private static JPanel battlePane;
+	private static JList<String> itemList;
 	
 	/** Builds the Starting Menu Panel
 	 * 
@@ -131,7 +131,7 @@ public class PaneBuilder  {
 		Enemy enemy = encounter.getEnemy();
 
 		// Components - 1 Main Panel, 1 TextArea (Scrollable)
-		battlePane = new JPanel();
+		JPanel battlePane = new JPanel();
 		battlePane.setLayout(new GridBagLayout());
 
 		JTextArea actionTextArea = new JTextArea();
@@ -198,7 +198,7 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
-					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().win();
 				}
 
@@ -217,7 +217,7 @@ public class PaneBuilder  {
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
 					AppRunner.createPlayer();
-					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().lose();
 				}
 			}
@@ -226,7 +226,7 @@ public class PaneBuilder  {
 		
 
 		// Defining (Player) Item JList (Wrapped In JScrollPane) Component w/ ListSelectionListener
-		JList<String> itemList = new JList<>();
+		itemList = new JList<>();
 		updateInventory(itemList, player);
 
 		itemList.addListSelectionListener((ListSelectionEvent lse) -> {
@@ -250,7 +250,7 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
-					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().win();
 				}
 
@@ -269,7 +269,7 @@ public class PaneBuilder  {
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
 					AppRunner.createPlayer();
-					AppRunner.setUpNewBattle(jfrm, cards);
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().lose();
 				}
 			}
@@ -304,7 +304,7 @@ public class PaneBuilder  {
 		
 		runButton.addActionListener((ActionEvent ae) -> {
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Start");
-			AppRunner.setUpNewBattle(jfrm, cards);
+			AppRunner.setUpNewBattle();
 		});
 
 
@@ -363,7 +363,9 @@ public class PaneBuilder  {
 	 * 
 	 * @return	the GUI/panel of the intermission screen
 	 */
-	static JPanel buildIntermissionPanel(JFrame jfrm, CardLayout cards, Intermission intermission, Player player) {
+	static JPanel buildIntermissionPanel(JFrame jfrm, CardLayout cards, List<Intermission> intermissionDex, Player player) {
+		// Pick a random intermission event.
+		Intermission intermission = intermissionDex.get((int) (Math.random() * intermissionDex.size()));
 
 		// Components - 1 Main Panel, 1 Label, 1 Button Panel (2 buttons), 1 Button
 		JPanel intermissionPane = new JPanel(new GridBagLayout());
@@ -399,6 +401,7 @@ public class PaneBuilder  {
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
 			player.addItem(new Item(intermission.getOptionOneItem(), intermission.getCountOne()));
+			updateInventory(itemList, player);
 		});
 
 		optionTwoButton.addActionListener((ActionEvent ae) -> {
@@ -407,12 +410,15 @@ public class PaneBuilder  {
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
 			player.addItem(new Item(intermission.getOptionTwoItem(), intermission.getCountTwo()));
+			updateInventory(itemList, player);
 		});
 
 
 		nextButton.addActionListener((ActionEvent ae) -> {
 			//Change to the "Battle" screen (card)
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
+			// Switch to the new intermission pane.
+			AppRunner.addPane(buildIntermissionPanel(jfrm, cards, intermissionDex, player), "Intermission");
 		});
 
 
