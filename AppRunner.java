@@ -17,41 +17,9 @@ public class AppRunner {
     private static CardLayout cards;
     private static List<Entity> entityDex;
     private static List<Usable> itemDex;
+    private static List<Attack> attackDex;
+    private static List<Intermission> intermissionDex;
     private static BattleStats stats = new BattleStats();
-    
-    //Method to Create Player
-    public static Player createPlayer(List<Entity> entityDex, List<Usable> itemDex) {
-        Player player = null;
-        for (Entity entity : entityDex) {
-            if (entity.getName().equals("Player")) {
-                player = new Player(entity);
-                break;
-            }
-        }
-        //Add items like Health Potion, Fire Bottle, etc. to the player
-        for (Usable item : itemDex) {
-            if (item.getName().equals("Health Potion") || item.getName().equals("Fire Bottle")) {
-                player.addItem(new Item(item, 3)); // Add 3 items of each type
-            }
-        }
-        return player;
-    }
-
-    //Method to Create Random Enemy
-    public static Enemy createRandomEnemy(List<Entity> entityDex) {
-        Enemy newEnemy = null;
-
-        //Randomly select an enemy from the entityDex
-        while (newEnemy == null) {
-            int roll = (int) (Math.random() * entityDex.size());
-            Entity chosenEntity = entityDex.get(roll);
-            if (!chosenEntity.getName().equals("Player")) {
-                newEnemy = new Enemy(chosenEntity);
-            }
-        }
-        return newEnemy;
-    }
-    
 
     public AppRunner() {
         // Open game data file.
@@ -66,10 +34,10 @@ public class AppRunner {
 
         if (ableToRun) {
             String section = null;
-            List<Attack> attackDex = new ArrayList<>();
+            attackDex = new ArrayList<>();
             itemDex = new ArrayList<>();
             entityDex = new ArrayList<>();
-            List<Intermission> intermissionDex = new ArrayList<>();
+            intermissionDex = new ArrayList<>();
 
             // Read game data.
             while (sc.hasNextLine()) {
@@ -85,35 +53,9 @@ public class AppRunner {
                             itemDex.add(new Usable(line[0], Boolean.parseBoolean(line[1]), Boolean.parseBoolean(line[2]), new Effect(Integer.parseInt(line[3]), Integer.parseInt(line[4]), Integer.parseInt(line[5]), Boolean.parseBoolean(line[6]))));
                             break;
                         case "Entity":
-                            int element;
                             List<Attack> entityAttackList = new ArrayList<>();
-                            if (line[0].equals("Player")) {
-                                element = (int) (Math.random() * 4);
-                                String searchAttackName = null;
-                                switch (element) {
-                                    case 0:
-                                        searchAttackName = "Fire Breath";
-                                        break;
-                                    case 1:
-                                        searchAttackName = "Water Ball";
-                                        break;
-                                    case 2:
-                                        searchAttackName = "Lightning Strike";
-                                        break;
-                                    case 3:
-                                        searchAttackName = "Wood Thwack";
-                                        break;
-                                    default:
-                                        System.out.println("Error: Element " + element + " not found.");
-                                }
-                                for (Attack attack : attackDex) {
-                                    if (attack.getName().equals(searchAttackName)) {
-                                        entityAttackList.add(attack);
-                                        break;
-                                    }
-                                }
-                            } else
-                                element = Integer.parseInt(line[2]);
+                            int element;
+                            element = Integer.parseInt(line[2]);
                             Entity entity = new Entity(line[0], Integer.parseInt(line[1]), element);
                             for (int i = 3; i < line.length - 2; i++) {
                                 for (int j = 0; j < attackDex.size(); j++) {
@@ -166,42 +108,19 @@ public class AppRunner {
 			// Build Start Menu
 			JPanel startPane = PaneBuilder.buildStartPanel(jfrm, cards);
 
-			// Build Battle Menu -> Create Player and Enemy
-			Player player = null;
-			for (Entity entity : entityDex) {
-				if (entity.getName().equals("Player")) {
-					player = new Player(entity);
-					break; // Bad Practice :(
-				}
-			}
-
-			for (Usable item : itemDex) {
-				if (item.getName().equals("Health Potion") || item.getName().equals("Fire Bottle"))
-					player.addItem(new Item(item, 3));
-			}
-
-			Enemy enemy = null;
-			while (enemy == null) {
-				int roll = (int) (Math.random() * entityDex.size());
-				Entity chosenEntity = entityDex.get(roll);
-				if (!chosenEntity.getName().equals("Player"))
-					enemy = new Enemy(chosenEntity);
-			}
-
-			Encounter encounter = new Encounter(enemy, player);
-			JPanel battlePane = PaneBuilder.buildBattlePanel(jfrm, cards, encounter);
-			encounter.setBattlePane(battlePane);
+			// Build Battle Menu -> Create Player and Random Enemy
+			createPlayer();
+			setUpNewBattle();
 
 			// Build Intermission Menu
-			Intermission intermission = intermissionDex.get((int) (Math.random() * intermissionDex.size()));
-			JPanel intermissionPane = PaneBuilder.buildIntermissionPanel(jfrm, cards, intermission, player);
+			JPanel intermissionPane = PaneBuilder.buildIntermissionPanel(jfrm, cards, intermissionDex, player);
 
 			// Build Death Menu
 			JPanel deathPane = PaneBuilder.buildDeathPanel(jfrm, cards);
 			
 			// Add Panes to JFrame
 			jfrm.add(startPane, "Start");
-			jfrm.add(battlePane, "Battle");
+			jfrm.add(currentBattlePane, "Battle");
 			jfrm.add(intermissionPane, "Intermission");
 			jfrm.add(deathPane, "Death");
 
@@ -229,29 +148,14 @@ public class AppRunner {
 		return stats;
 	}
 
-    //Method to Create NewBattle
-    public static JPanel setupNewBattle(JFrame jfrm, CardLayout cards, List<Entity> entityDex, List<Usable> itemDex) {
-        //Creates Player/Enemy
-        player = createPlayer(entityDex, itemDex);
-        Enemy enemy = createRandomEnemy(entityDex);
-        //New Encounter
+    // Method to build a new battle panel
+    public static void setUpNewBattle() {
+        player.setCurrentHealth(player.getMaxHealth());
+        Enemy enemy = createRandomEnemy();
         Encounter encounter = new Encounter(enemy, player);
-        //Create BattlePane
         currentBattlePane = PaneBuilder.buildBattlePanel(jfrm, cards, encounter);
-        encounter.setBattlePane(currentBattlePane);
-
-        return currentBattlePane;
+        addPane(currentBattlePane, "Battle");
     }
-
-    //Attempted to Remove currentBattle Pane then Put a New One
-    //Could Work, so Just Leaving it For Now
-    //public static void removeBattle(JPanel battlePane) {
-        // Reset or modify the battle pane for the new battle
-        //battlePane.removeAll();  // Clears the existing components
-        //battlePane.add(new JLabel("New Battle Started"));  // Add new components, like labels, buttons, etc.
-        //battlePane.revalidate();  // Revalidate the panel to reflect changes
-        //battlePane.repaint();     // Repaint to show updates
-    //}
 
     //Returns BattlePane
     //Example; Call This Then Envoke removeBattle()
@@ -273,8 +177,67 @@ public class AppRunner {
     }
 
     //Adds Pane to jfrm
-    //jfrm Uses CardLayout, so Pane is now Apart of CardLayout
+    //jfrm Uses CardLayout, so Pane is now a part of CardLayout
     public static void addPane(JPanel panel, String cardName) {
         jfrm.add(panel, cardName);  //Add Pane w/ Specified Name
+    }
+
+    //Method to Create Player
+    public static void createPlayer() {
+        player = null;
+        for (Entity entity : entityDex) {
+            if (entity.getName().equals("Player")) {
+                player = new Player(entity);
+
+                int element = (int) (Math.random() * 4);
+                player.setElement(element);
+                String searchAttackName = null;
+                switch (element) {
+                    case 0:
+                        searchAttackName = "Fire Breath";
+                        break;
+                    case 1:
+                        searchAttackName = "Water Ball";
+                        break;
+                    case 2:
+                        searchAttackName = "Lightning Strike";
+                        break;
+                    case 3:
+                        searchAttackName = "Wood Thwack";
+                        break;
+                    default:
+                        System.out.println("Error: Element " + element + " not found.");
+                }
+                for (Attack attack : attackDex) {
+                    if (attack.getName().equals(searchAttackName)) {
+                        player.getSelectedAttacks().add(attack);
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+        //Add items like Health Potion, Fire Bottle, etc. to the player
+        for (Usable item : itemDex) {
+            if (item.getName().equals("Health Potion") || item.getName().equals("Fire Bottle")) {
+                player.addItem(new Item(item, 3)); // Add 3 items of each type
+            }
+        }
+    }
+
+    //Method to Create Random Enemy
+    public static Enemy createRandomEnemy() {
+        Enemy newEnemy = null;
+
+        //Randomly select an enemy from the entityDex
+        while (newEnemy == null) {
+            int roll = (int) (Math.random() * entityDex.size());
+            Entity chosenEntity = entityDex.get(roll);
+            if (!chosenEntity.getName().equals("Player")) {
+                newEnemy = new Enemy(chosenEntity);
+            }
+        }
+        return newEnemy;
     }
 }

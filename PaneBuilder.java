@@ -18,10 +18,7 @@ public class PaneBuilder  {
 	private static final Font TITLE_FONT = new Font("Serif", Font.BOLD, 55);
 	private static final Color HEALTH_RED = new Color(255, 100, 100);
 
-	private static JPanel battlePane;
-	
-
-	private static int battleCount = -1;
+	private static JList<String> itemList;
 	
 	/** Builds the Starting Menu Panel
 	 * 
@@ -86,34 +83,7 @@ public class PaneBuilder  {
 		// Action Listeners
 		startButton.addActionListener((ActionEvent ae) -> {
 			// Changes the screen to the battle screen.
-			if (battleCount == 0) 
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
-			else {
-			// TODO Fix Method's of getting New Entity's/Items
-
-			//Call For defined Entity/Item Index
-			List<Entity> tempEntityDex = AppRunner.getEntityDex();
-			//Calls Sprites, Develop New Method
-			//tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
-    		List<Usable> tempItemDex = AppRunner.getItemDex();
-			//Issues, call Temps Sprite for Cat
-
-			// What is going on here?
-			//tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
-			
-			
-			System.out.println("Help!");	//SystemPrint
-
-			//Creat a New Battlepane
-			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
-
-			//Add Pane to jfrm, Panel is Now a part of Card Layout
-			AppRunner.addPane(tempBattlePane, "NewBattle");
-		
-			//Change to the "NewBattle" screen (card)
-			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
-			}
-
 		});
 
 		statsButton.addActionListener((ActionEvent ae) -> {
@@ -163,7 +133,7 @@ public class PaneBuilder  {
 		Enemy enemy = encounter.getEnemy();
 
 		// Components - 1 Main Panel, 1 TextArea (Scrollable)
-		battlePane = new JPanel();
+		JPanel battlePane = new JPanel();
 		battlePane.setLayout(new GridBagLayout());
 
 		JTextArea actionTextArea = new JTextArea();
@@ -230,6 +200,7 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().win();
 				}
 
@@ -247,6 +218,8 @@ public class PaneBuilder  {
 				// Check to see if the player is dead; if true, show death screen
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
+					AppRunner.createPlayer();
+					AppRunner.setUpNewBattle();
 					AppRunner.getBattleStats().lose();
 				}
 			}
@@ -255,7 +228,7 @@ public class PaneBuilder  {
 		
 
 		// Defining (Player) Item JList (Wrapped In JScrollPane) Component w/ ListSelectionListener
-		JList<String> itemList = new JList<>();
+		itemList = new JList<>();
 		updateInventory(itemList, player);
 
 		itemList.addListSelectionListener((ListSelectionEvent lse) -> {
@@ -279,6 +252,8 @@ public class PaneBuilder  {
 				// Check to see if the enemy is dead; if true, show intermission screen
 				if (enemyHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Intermission");
+					AppRunner.setUpNewBattle();
+					AppRunner.getBattleStats().win();
 				}
 
 				itemList.clearSelection();
@@ -295,9 +270,13 @@ public class PaneBuilder  {
 				// Check to see if the player is dead; if true, show death screen
 				if (playerHealth.getValue() <= 0) {
 					AppRunner.changeScreen(cards, jfrm.getContentPane(), "Death");
+					AppRunner.createPlayer();
+					AppRunner.setUpNewBattle();
+					AppRunner.getBattleStats().lose();
 				}
 			}
 		});
+		
 		JScrollPane itemScrollPane = new JScrollPane(itemList);
 
 
@@ -333,6 +312,7 @@ public class PaneBuilder  {
 		
 		runButton.addActionListener((ActionEvent ae) -> {
 			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Start");
+			AppRunner.setUpNewBattle();
 		});
 
 
@@ -376,8 +356,6 @@ public class PaneBuilder  {
 			System.out.println("Unable to load background :(");
 		}
 	
-		// TODO Set to Zero After Death
-		battleCount++;
 		return battlePane;
 	}
 
@@ -393,7 +371,9 @@ public class PaneBuilder  {
 	 * 
 	 * @return	the GUI/panel of the intermission screen
 	 */
-	static JPanel buildIntermissionPanel(JFrame jfrm, CardLayout cards, Intermission intermission, Player player) {
+	static JPanel buildIntermissionPanel(JFrame jfrm, CardLayout cards, List<Intermission> intermissionDex, Player player) {
+		// Pick a random intermission event.
+		Intermission intermission = intermissionDex.get((int) (Math.random() * intermissionDex.size()));
 
 		// Components - 1 Main Panel, 1 Label, 1 Button Panel (2 buttons), 1 Button
 		JPanel intermissionPane = new JPanel(new GridBagLayout());
@@ -431,7 +411,8 @@ public class PaneBuilder  {
 			optionOneButton.setVisible(false);
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
-			player.addItem(new Item(intermission.getOptionOneItem(), intermission.getCountOne()));
+			player.addItem(intermission.getOptionOneItem());
+			updateInventory(itemList, player);
 		});
 
 		optionTwoButton.addActionListener((ActionEvent ae) -> {
@@ -439,27 +420,16 @@ public class PaneBuilder  {
 			optionOneButton.setVisible(false);
 			optionTwoButton.setVisible(false);
 			nextButton.setVisible(true);
-			player.addItem(new Item(intermission.getOptionTwoItem(), intermission.getCountTwo()));
+			player.addItem(intermission.getOptionTwoItem());
+			updateInventory(itemList, player);
 		});
 
 
 		nextButton.addActionListener((ActionEvent ae) -> {
-			//Call For defined Entity/Item Index
-			List<Entity> tempEntityDex = AppRunner.getEntityDex();
-			tempEntityDex.add(new Entity("New Enemy", 100, 2));	//Change Values
-    		List<Usable> tempItemDex = AppRunner.getItemDex();
-			tempItemDex.add(new Usable("New Item", true, false, new Effect(10, 5, 3, true)));	//Change Values
-			
-			System.out.println("Help!");	//SystemPrint
-
-			//Creat a New Battlepane
-			JPanel tempBattlePane = AppRunner.setupNewBattle(jfrm, cards, tempEntityDex, tempItemDex);
-
-			//Add Pane to jfrm, Panel is Now Apart of Card Layout
-			AppRunner.addPane(tempBattlePane, "NewBattle");
-		
-			//Change to the "NewBattle" screen (card)
-			AppRunner.changeScreen(cards, jfrm.getContentPane(), "NewBattle");
+			//Change to the "Battle" screen (card)
+			AppRunner.changeScreen(cards, jfrm.getContentPane(), "Battle");
+			// Switch to the new intermission pane.
+			AppRunner.addPane(buildIntermissionPanel(jfrm, cards, intermissionDex, player), "Intermission");
 		});
 
 

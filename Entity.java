@@ -6,7 +6,8 @@ public class Entity {
 	private String name;
 	private int maxHealth;
 	private int element;
-	/*  0 - Fire
+	/* -1 - No Element  
+	0 - Fire
 	1 - Water
 	2 - Electricity
 	3 - Wood */

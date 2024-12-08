@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class Enemy extends InstanceEntity {
 	private int intelligence;
 
@@ -34,18 +32,5 @@ public class Enemy extends InstanceEntity {
     public String toString() {
         return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
     }
-	
-    // Method to generate a new enemy
-	public Enemy generateNewEnemy(List<Entity> entityDex) {
-		Enemy enemy = null;
-		while (enemy == null) {
-			int roll = (int) (Math.random() * entityDex.size());
-			Entity chosenEntity = entityDex.get(roll);
-			if (!chosenEntity.getName().equals("Player"))
-				enemy = new Enemy(chosenEntity);
-		}
-		return enemy;
-	}
-
 }
 

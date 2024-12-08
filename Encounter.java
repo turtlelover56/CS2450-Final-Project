@@ -13,7 +13,7 @@ public class Encounter {
     }
 
 	protected int resolveAttack(Attack attack, boolean targetEnemy) {
-		if (Math.random() < attack.getAccuracy())
+		if (Math.random() < attack.getAccuracy() / 100.0)
 			return resolveEffect(attack.getEffect(), targetEnemy);
 		else
 			return -1;
