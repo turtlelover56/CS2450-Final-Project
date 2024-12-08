@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class Enemy extends InstanceEntity {
+<<<<<<< HEAD
     
     private int intelligence;
 
@@ -16,21 +17,38 @@ public class Enemy extends InstanceEntity {
         super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
         this.intelligence = intelligence;
     }
+=======
+	private int intelligence;
 
-    /* Method to change health by given amount. 
-     * Returns true if health is > 0, else returns false.*/
-    public boolean changeHealth(int change) {
-        return changeCurrentHealth(change);
-    }
+	// Constructors
+	public Enemy(Entity entity) {
+		super(entity);
+		intelligence = 0;
+	}
+	public Enemy(InstanceEntity instanceEntity) {
+		this(0, instanceEntity);
+	}
+	public Enemy(int intelligence, InstanceEntity instanceEntity) {
+		super(instanceEntity.getCurrentHealth(), instanceEntity.getSelectedAttacks(), instanceEntity);
+		this.intelligence = intelligence;
+	}
+>>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
 
-    // Getters/Setters
-    public int getIntelligence() {
-        return intelligence;
-    }
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
+	/* Method to change health by given amount. 
+	 * Returns true if health is > 0, else returns false.*/
+	public boolean changeHealth(int change) {
+		return changeCurrentHealth(change);
+	}
 
+	// Getters/Setters
+	public int getIntelligence() {
+		return intelligence;
+	}
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+
+<<<<<<< HEAD
     @Override
     public String toString() {
         return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
@@ -45,6 +63,12 @@ public Enemy generateNewEnemy(List<Entity> entityDex) {
             enemy = new Enemy(chosenEntity);
     }
     return enemy;
+=======
+	@Override
+	public String toString() {
+		return "Enemy [intelligence=" + intelligence + ", instance entity=" + super.toString() + "]";
+	}
+>>>>>>> f0f716e89560bf35865825910de29c96ee1f68ca
 }
 
 }
