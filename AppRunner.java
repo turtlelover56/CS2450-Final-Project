@@ -92,10 +92,10 @@ public class AppRunner {
             }
 
             // Debugging prints.
-            System.out.println(attackDex);
-            System.out.println(itemDex);
-            System.out.println(entityDex);
-            System.out.println(intermissionDex);
+            // System.out.println(attackDex);
+            // System.out.println(itemDex);
+            // System.out.println(entityDex);
+            // System.out.println(intermissionDex);
 
             // Create the frame.
             jfrm = new JFrame("PokéPath! Definitely not copyrighted...");
