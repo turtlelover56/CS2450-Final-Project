@@ -43,12 +43,15 @@ public class PaneBuilder  {
 
 		JButton startButton = new JButton("Start");
 		startButton.setFont(NORMAL_FONT);
+		startButton.setBackground(Color.WHITE);
 
 		JButton statsButton = new JButton("Battle Stats");
 		statsButton.setFont(NORMAL_FONT);
+		statsButton.setBackground(Color.WHITE);
 
 		JButton exitButton = new JButton("Exit");
 		exitButton.setFont(NORMAL_FONT);
+		exitButton.setBackground(Color.WHITE);
 
 		// Add the buttons to the buttonPanel
 		buttonPanel.add(startButton);
